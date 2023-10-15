@@ -15,7 +15,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
-    loader: () => fetch("http://localhost:5000/coffee"),
+    loader: () =>
+      fetch(
+        "https://coffee-store-server-hh8iqorsw-arjus-projects.vercel.app/coffee"
+      ),
   },
   {
     path: "/addCoffee",
@@ -24,7 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/updateCoffee/:id",
     element: <UpdateCoffee></UpdateCoffee>,
-    loader: ({ params }) => fetch(`http://localhost:5000/coffee/${params.id}`),
+    loader: ({ params }) =>
+      fetch(
+        `https://coffee-store-server-hh8iqorsw-arjus-projects.vercel.app/coffee/${params.id}`
+      ),
   },
   {
     path: "/signup",
@@ -35,10 +41,13 @@ const router = createBrowserRouter([
     element: <SignIn></SignIn>,
   },
   {
-    path:'/users',
-    element:<Users></Users>,
-    loader:()=>fetch('http://localhost:5000/user')
-  }
+    path: "/users",
+    element: <Users></Users>,
+    loader: () =>
+      fetch(
+        "https://coffee-store-server-hh8iqorsw-arjus-projects.vercel.app/user"
+      ),
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

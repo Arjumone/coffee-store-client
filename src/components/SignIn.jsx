@@ -2,44 +2,47 @@ import { useContext } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 
 const SignIn = () => {
-    const { signInUser }= useContext(AuthContext)
+  const { signInUser } = useContext(AuthContext);
 
-    const handleSignIn = e =>{
-        e.preventDefault()
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
-        console.log(email,password);
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
 
-        signInUser(email,password)
-        .then(result =>{
-            console.log(result.user);
+    signInUser(email, password)
+      .then((result) => {
+        console.log(result.user);
 
-            const user = {
-                email,
-                lastLoggedAt:result.user?.metadata?.lastSignInTime
+        const user = {
+          email,
+          lastLoggedAt: result.user?.metadata?.lastSignInTime,
+        };
+
+        // update last logged at in the database
+        fetch(
+          "https://coffee-store-server-hh8iqorsw-arjus-projects.vercel.app/user",
+          {
+            method: "PATCH",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(user),
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.modifiedCount) {
+              alert("updated in database");
             }
-
-            // update last logged at in the database
-            fetch('http://localhost:5000/user',{
-                method:"PATCH",
-                headers:{
-                    'content-type':'application/json'
-                },
-                body:JSON.stringify(user)
-            })
-            .then(res=>res.json())
-            .then(data=>{
-                console.log(data);
-                if(data.modifiedCount){
-                    alert("updated in database")
-                }
-            })
-        })
-        .then(error=>{
-            console.error(error);
-        })
-    }
+          });
+      })
+      .then((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <div>

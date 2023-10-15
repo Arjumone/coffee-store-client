@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
-import {Link} from 'react-router-dom'
-const CoffeeCard = ({ coffee,coffees,setCoffees }) => {
+import { Link } from "react-router-dom";
+const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
   const { _id, name, quantity, supplier, taste, category, details, photo } =
     coffee;
 
@@ -16,15 +16,18 @@ const CoffeeCard = ({ coffee,coffees,setCoffees }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/coffee/${_id}`, {
-            method:"DELETE"
-        })
+        fetch(
+          `https://coffee-store-server-hh8iqorsw-arjus-projects.vercel.app/coffee/${_id}`,
+          {
+            method: "DELETE",
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
             if (data.deletedCount) {
               Swal.fire("Deleted!", "Your Coffee has been deleted.", "success");
-              const remaining = coffees.filter(cof=>cof._id !== _id)
+              const remaining = coffees.filter((cof) => cof._id !== _id);
               setCoffees(remaining);
             }
           });
@@ -48,7 +51,7 @@ const CoffeeCard = ({ coffee,coffees,setCoffees }) => {
           <div className="btn-group btn-group-vertical space-y-4 text-white">
             <button className="btn bg-blue-600">View</button>
             <Link to={`updateCoffee/${_id}`}>
-            <button className="btn bg-green-500">Update</button>
+              <button className="btn bg-green-500">Update</button>
             </Link>
             <button
               onClick={() => handleDelete(_id)}
